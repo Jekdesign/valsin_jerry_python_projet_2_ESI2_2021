@@ -1,11 +1,9 @@
-ingredient = []
-
 
 class Pizza:
-    def __init__(self, name, price, vegetarian=False):
+    def __init__(self, name, price, ingredient, vegetarian):
         self.name = name
         self.price = price
-        self.ingredient = []
+        self.ingredient = ingredient
         self.vegetarian = vegetarian
 
     def order(self):
@@ -15,42 +13,47 @@ class Pizza:
         print('Boxing %s' % self.name)
 
     def displayPizza(self):
-        print("PIZZA %s : price %s - vegetarian %s " %
-              (self.name, self.price, self.vegetarian))
-
-    # def showIngredients():
-    #     print("")
+        if self.vegetarian == True:
+            veggie = "VEGETARIAN"
+        else:
+            veggie = "NON VEGETARIAN"
+        print("PIZZA %s : price %s - %s " %
+              (self.name, self.price, veggie))
+        for i in self.ingredient:
+            print(i)
 
 
 class CustomPizza(Pizza):
-    def __init__(self, name, price, vegetarian):
-        Pizza.__init__(self, name, price, vegetarian)
+    def __init__(self, name, price, ingredient, vegetarian):
+        Pizza.__init__(self, name, price, ingredient, vegetarian)
 
-    # def requestIngredient(self):
+    def requestIngredients(self):
+        nb = 1
+        while nb == 1:
+            addIngredient = input(
+                'Add ingredients to personalise your pizza (ENTER to finish) : ')
+            if addIngredient == "":
+                nb = 0
+                self.displayPizza()
+                return
+            else:
+                self.ingredient = self.ingredient + [addIngredient]
+                self.price += 1.2
 
-        # def calculPrice(self):
 
-
-pizzaHawai = Pizza("Hawai", 9.5, ["tomates", "ananas", "oignons"])
+pizzaHawai = Pizza("Hawai", 9.5, ["tomates", "ananas", "oignons"], False)
 pizzaHawai.displayPizza()
 pizzaHawai.order()
 print("-----------------------------------------")
 pizzaSeasons = Pizza(
-    "4 saisons", 11, ["oeuf", "emmental", "tomates", "jambon", "olives"])
+    "4 saisons", 11, ["oeuf", "emmental", "tomates", "jambon", "olives"], False)
 pizzaSeasons.displayPizza()
 pizzaSeasons.order()
 print("----------------------------------------")
 pizzaVeggie = Pizza(
-    "Veggie", 7.8, ["champignons", "tomates", "oignon", "poivrons"])
+    "Veggie", 7.8, ["champignons", "tomates", "oignon", "poivrons"], True)
 pizzaVeggie.displayPizza()
 pizzaVeggie.order()
 print("----------------------------------------")
-pizzaPerso1 = Pizza(
-    "Perso 1", 10.5, ["fromage", "jambon", "boeuf"])
-pizzaPerso1.displayPizza()
-pizzaPerso1.order()
-print("----------------------------------------")
-pizzaPerso2 = Pizza(
-    "Perso 2", 10.5, ["oignons", "champignon"])
-pizzaPerso2.displayPizza()
-pizzaPerso2.order()
+pizzaPerso1 = CustomPizza("Perso 1", 7, [], False)
+pizzaPerso1.requestIngredients()
